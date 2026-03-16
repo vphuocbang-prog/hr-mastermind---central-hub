@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Vocab & Chat | Inspire English Center</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           CSS RESET & VARIABLES
+           ========================================================================== */
+        :root { 
+            --red: #B31B2A; 
+            --black: #1a1a1a; 
+            --white: #ffffff; 
+            --gray: #f4f4f4;
+            --light-red: #fff5f5;
+            --green: #2ecc71;
+            --dark-green: #27ae60;
+        }
+
+        /* Yêu cầu đặc biệt: Chuyển toàn bộ font chữ sang Times New Roman */
+        body { 
+            font-family: 'Times New Roman', Times, serif; 
+            margin: 0; 
+            background: var(--gray); 
+            overflow-x: hidden; 
+            font-size: 18px;
+        }
+
+        /* ==========================================================================
+           HEADER & NAVIGATION
+           ========================================================================== */
+        header { 
+            background: var(--white); 
+            padding: 15px 30px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        
+        .logo-box h2 {
+            margin: 0; 
+            color: var(--red);
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .logo-box span {
+            color: var(--black); 
+            font-weight: normal;
+        }
+
+        .nav-tabs { 
+            display: flex; 
+            gap: 15px; 
+        }
+
+        .tab-btn { 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            border-radius: 25px; 
+            border: 2px solid var(--red); 
+            background: transparent; 
+            font-weight: bold; 
+            color: var(--red); 
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 16px;
+            transition: all 0.3s ease; 
+        }
+
+        .tab-btn:hover {
+            background: var(--light-red);
+        }
+
+        .tab-btn.active { 
+            background: var(--red); 
+            color: var(--white); 
+            box-shadow: 0 4px 10px rgba(179, 27, 42, 0.3);
+        }
+
+        /* ==========================================================================
+           MAIN CONTAINER & UTILITIES
+           ========================================================================== */
+        .container { 
+            max-width: 1000px; 
+            margin: 30px auto; 
+            padding: 0 20px; 
+        }
+        
+        .hidden { 
+            display: none !important; 
+        }
+
+        .unit-selector { 
+            margin-bottom: 30px; 
+            text-align: center; 
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .unit-selector label {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 15px;
+            color: var(--black);
+        }
+
+        select { 
+            padding: 12px 20px; 
+            border-radius: 10px; 
+            border: 2px solid var(--red); 
+            font-weight: bold; 
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 18px;
+            cursor: pointer;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        select:focus {
+            box-shadow: 0 0 10px rgba(179, 27, 42, 0.2);
+        }
+
+        /* ==========================================================================
+           STUDY TAB (LIST VIEW)
+           ========================================================================== */
+        .list-search { 
+            width: 100%; 
+            padding: 15px; 
+            border-radius: 30px; 
+            border: 2px solid #ddd; 
+            margin-bottom: 25px; 
+            outline: none; 
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 18px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .list-search:focus {
+            border-color: var(--red);
+        }
+
+        .vocab-table { 
+            width: 100%; 
+            background: var(--white); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            border-collapse: collapse; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .vocab-table th { 
+            background: var(--black); 
+            color: var(--white); 
+            padding: 18px; 
+            text-align: left; 
+            font-size: 18px;
+        }
+
+        .vocab-table td { 
+            padding: 15px 18px; 
+            border-bottom: 1px solid #eee; 
+            vertical-align: middle;
+        }
+
+        .vocab-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .vocab-table tr:hover { 
+            background: var(--light-red); 
+        }
+
+        .btn-play-sound {
+            border: none; 
+            background: var(--light-red); 
+            cursor: pointer; 
+            color: var(--red);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .btn-play-sound:hover {
+            background: var(--red);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        /* ==========================================================================
+           FLASHCARD TAB
+           ========================================================================== */
+        .flashcard-area { 
+            perspective: 1200px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            margin-top: 40px; 
+        }
+
+        .card { 
+            width: 450px; 
+            height: 300px; 
+            position: relative; 
+            transform-style: preserve-3d; 
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            cursor: pointer; 
+        }
+
+        .card.flipped { 
+            transform: rotateY(180deg); 
+        }
+
+        .card-face { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            backface-visibility: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            border-radius: 25px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+            padding: 30px; 
+            text-align: center; 
+            box-sizing: border-box;
+        }
+
+        .card-front { 
+            background: var(--white); 
+            border: 4px solid var(--red); 
+        }
+
+        .card-back { 
+            background: var(--red); 
+            color: var(--white); 
+            transform: rotateY(180deg); 
+            border: 4px solid var(--red);
+        }
+
+        .card-en { 
+            font-size: 42px; 
+            font-weight: bold; 
+            color: var(--red); 
+            margin-bottom: 10px;
+        }
+
+        .card-ipa { 
+            color: #555; 
+            font-style: italic; 
+            font-size: 22px;
+        }
+
+        .card-vi { 
+            font-size: 36px; 
+            font-weight: bold;
+        }
+
+        .card-controls { 
+            margin-top: 40px; 
+            display: flex; 
+            gap: 30px; 
+            align-items: center; 
+        }
+
+        .btn-round { 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            border: none; 
+            background: var(--black); 
+            color: var(--white); 
+            cursor: pointer; 
+            font-size: 24px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-round:hover {
+            transform: translateY(-5px);
+            background: #333;
+        }
+
+        .btn-audio { 
+            background: var(--dark-green); 
+            width: 70px;
+            height: 70px;
+            font-size: 28px;
+        }
+
+        .btn-audio:hover {
+            background: var(--green);
+        }
+
+        #card-progress {
+            margin-top: 25px; 
+            font-weight: bold;
+            font-size: 20px;
+            color: #555;
+            background: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* ==========================================================================
+           GAME TAB (MATCHING GAME)
+           ========================================================================== */
+        .game-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .game-header h3 {
+            font-size: 28px;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+
+        .game-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 20px; 
+            margin-top: 20px; 
+        }
+
+        .game-item { 
+            background: var(--white); 
+            padding: 20px; 
+            border-radius: 15px; 
+            text-align: center; 
+            cursor: pointer; 
+            border: 3px solid #ddd; 
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            font-weight: bold; 
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+        }
+
+        .game-item:hover {
+            transform: scale(1.03);
+            border-color: #aaa;
+        }
+
+        .game-item.selected { 
+            border-color: var(--red); 
+            background: var(--light-red); 
+            color: var(--red);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(179, 27, 42, 0.2);
+        }
+
+        .game-item.correct { 
+            background: var(--green); 
+            color: var(--white); 
+            border-color: var(--dark-green); 
+            visibility: hidden; 
+            opacity: 0;
+            transition: visibility 0s 0.5s, opacity 0.5s linear;
+        }
+
+        .btn-refresh-game {
+            display: block;
+            margin: 40px auto 0;
+            padding: 12px 30px;
+            font-size: 18px;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+
+        .btn-refresh-game:hover {
+            background: var(--red);
+            box-shadow: 0 5px 15px rgba(179, 27, 42, 0.3);
+        }
+
+        /* ==========================================================================
+           CHAT TAB (NEW FEATURE)
+           ========================================================================== */
+        .chat-container {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            border: 2px solid #eaeaea;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--red), #8e1521);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #fafafa;
+        }
+
+        .message-wrapper {
+            display: flex;
+            flex-direction: column;
+            max-width: 80%;
+        }
+
+        .message-wrapper.bot {
+            align-self: flex-start;
+        }
+
+        .message-wrapper.user {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+
+        .message-sender {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .message {
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 18px;
+            line-height: 1.5;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .message.bot {
+            background: var(--white);
+            color: var(--black);
+            border: 1px solid #eee;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user {
+            background: var(--red);
+            color: var(--white);
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-input-area {
+            display: flex;
+            padding: 15px;
+            background: var(--white);
+            border-top: 1px solid #eee;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .chat-input-area input:focus {
+            border-color: var(--red);
+        }
+
+        .chat-input-area button {
+            padding: 0 25px;
+            background: var(--red);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .chat-input-area button:hover {
+            background: var(--black);
+        }
+
+        .typing-indicator {
+            font-style: italic;
+            color: #888;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .anim-fade {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-box">
+        <h2>INSPIRE <span>LEARNING BY MR BANG</span></h2>
+    </div>
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="showTab('study')"><i class="fas fa-book-open"></i> Học Tập</button>
+        <button class="tab-btn" onclick="showTab('flashcard')"><i class="fas fa-layer-group"></i> Flashcards</button>
+        <button class="tab-btn" onclick="showTab('game')"><i class="fas fa-gamepad"></i> Trò Chơi</button>
+        <button class="tab-btn" onclick="showTab('chat')"><i class="fas fa-comments"></i> Chat Lớp Học</button>
+    </div>
+</header>
+
+<div class="container">
+    <div class="unit-selector">
+        <label><i class="fas fa-list"></i> Chọn Unit học tập:</label>
+        <select id="currentUnit" onchange="changeUnit()">
+            <option value="1">Unit 1: Local Environment</option>
+            <option value="2">Unit 2: City Life</option>
+            <option value="3">Unit 3: Teen Stress</option>
+            <option value="4">Unit 4: Life in the past</option>
+            <option value="5">Unit 5: Wonders of VN</option>
+            <option value="6" selected>Unit 6: Community Services</option>
+            <option value="7">Unit 7: Movies</option>
+            <option value="8">Unit 8: The World Around Us</option>
+            <option value="9">Unit 9: Houses in the Future</option>
+            <option value="10">Unit 10: Cities Around The World</option>
+        </select>
+    </div>
+
+    <div id="study-tab" class="tab-content">
+        <input type="text" class="list-search" id="searchInp" placeholder="🔍 Gõ từ tiếng Anh hoặc tiếng Việt để tìm nhanh..." onkeyup="filterList()">
+        <table class="vocab-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%">Tiếng Anh</th>
+                    <th style="width: 25%">Phiên âm</th>
+                    <th style="width: 40%">Nghĩa tiếng Việt</th>
+                    <th style="width: 10%; text-align: center;">Nghe</th>
+                </tr>
+            </thead>
+            <tbody id="vocab-body">
+                </tbody>
+        </table>
+    </div>
+
+    <div id="flashcard-tab" class="tab-content hidden">
+        <div class="flashcard-area">
+            <div class="card" id="mainCard" onclick="this.classList.toggle('flipped')">
+                <div class="card-face card-front">
+                    <div class="card-en" id="f-en">Word</div>
+                    <div class="card-ipa" id="f-ipa">/Pronunciation/</div>
+                    <div style="color:#888; margin-top:30px; font-size:16px;">
+                        <i class="fas fa-hand-pointer"></i> Chạm để lật thẻ
+                    </div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-vi" id="f-vi">Nghĩa tiếng Việt</div>
+                </div>
+            </div>
+            
+            <div class="card-controls">
+                <button class="btn-round" onclick="prevCard()" title="Từ trước"><i class="fas fa-chevron-left"></i></button>
+                <button class="btn-round btn-audio" onclick="speakCurrent()" title="Phát âm"><i class="fas fa-volume-up"></i></button>
+                <button class="btn-round" onclick="nextCard()" title="Từ tiếp theo"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <div id="card-progress">1 / 10</div>
+        </div>
+    </div>
+
+    <div id="game-tab" class="tab-content hidden">
+        <div class="game-header">
+            <h3><i class="fas fa-bolt"></i> Phản Xạ Nối Từ Siêu Tốc</h3>
+            <p style="color: #666; font-style: italic;">Luật chơi: Tìm và ghép chính xác 1 thẻ Tiếng Anh với 1 thẻ Tiếng Việt tương ứng.</p>
+        </div>
+        <div class="game-grid" id="game-grid">
+            </div>
+        <button class="btn-refresh-game" onclick="initGame()"><i class="fas fa-sync-alt"></i> Tải lại vòng mới</button>
+    </div>
+
+    <div id="chat-tab" class="tab-content hidden">
+        <div class="chat-container">
+            <div class="chat-header">
+                <i class="fas fa-users"></i> Lớp Học Mr. Bằng - Chém Gió Tiếng Anh
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message-wrapper bot anim-fade">
+                    <div class="message-sender">🤖 Thầy Bằng (Bot)</div>
+                    <div class="message bot">
+                        Hello các em! Phòng chat đã mở. Nhóm <b>Nick, Heri, Kate, Henry, Kelvin, Dora, và Jackson</b> đâu hết rồi? Lên tiếng học bài nào! 😎
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 0 15px;" class="typing-indicator" id="typing-indicator">Ai đó đang nhắn tin...</div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Nhập tin nhắn của em ở đây..." onkeypress="handleChatEnter(event)">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Gửi</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    /**
+     * ==========================================================================
+     * CƠ SỞ DỮ LIỆU TỪ VỰNG (MỞ RỘNG & CẬP NHẬT CHI TIẾT TỪ HÌNH ẢNH)
+     * ==========================================================================
+     * Database được tổ chức dưới dạng cấu trúc đa tầng, chi tiết từng key-value.
+     * Code được giãn dòng kỹ thuật để dễ dàng debug và đáp ứng các tiêu chuẩn khắt khe.
+     */
+    const fullData = {
+        // UNIT 1: LOCAL ENVIRONMENT
+        1: [
+            { u: 1, en: "artisan", ipa: "/ɑːtɪˈzæn/", vi: "thợ làm nghề thủ công" },
+            { u: 1, en: "handicraft", ipa: "/ˈhændɪkrɑːft/", vi: "sản phẩm thủ công" },
+            { u: 1, en: "workshop", ipa: "/ˈwɜːkʃɒp/", vi: "xưởng, công xưởng" },
+            { u: 1, en: "attraction", ipa: "/əˈtrækʃn/", vi: "điểm hấp dẫn" },
+            { u: 1, en: "preserve", ipa: "/prɪˈzɜːv/", vi: "bảo tồn, gìn giữ" },
+            { u: 1, en: "authenticity", ipa: "/ˌɔːθenˈtɪsəti/", vi: "tính xác thực, chân thật" },
+            { u: 1, en: "cast", ipa: "/kɑːst/", vi: "đúc (kim loại)" },
+            { u: 1, en: "craft", ipa: "/krɑːft/", vi: "nghề thủ công" },
+            { u: 1, en: "craftsman", ipa: "/ˈkrɑːftsmən/", vi: "thợ làm đồ thủ công" },
+            { u: 1, en: "team-building", ipa: "/ˈtiːm bɪldɪŋ/", vi: "xây dựng tinh thần đội nhóm" }
+        ],
+
+        // UNIT 2: CITY LIFE
+        2: [
+            { u: 2, en: "fabulous", ipa: "/ˈfæbjələs/", vi: "tuyệt vời, tuyệt diệu" },
+            { u: 2, en: "reliable", ipa: "/rɪˈlaɪəbl/", vi: "đáng tin cậy" },
+            { u: 2, en: "metropolitan", ipa: "/ˌmetrəˈpɒlɪtən/", vi: "thuộc đô thị" },
+            { u: 2, en: "multicultural", ipa: "/ˌmʌltiˈkʌltʃərəl/", vi: "đa văn hóa" },
+            { u: 2, en: "variety", ipa: "/vəˈraɪəti/", vi: "sự đa dạng" },
+            { u: 2, en: "grow up", ipa: "/ɡrəʊ ʌp/", vi: "lớn lên" },
+            { u: 2, en: "packed", ipa: "/pækt/", vi: "chật ních" },
+            { u: 2, en: "urban", ipa: "/ˈɜːbən/", vi: "thuộc đô thị" },
+            { u: 2, en: "Oceania", ipa: "/ˌəʊsiˈɑːniə/", vi: "châu Đại Dương" },
+            { u: 2, en: "medium-sized", ipa: "/ˈmiːdiəm saɪzd/", vi: "cỡ trung" }
+        ],
+
+        // UNIT 3: TEEN STRESS
+        3: [
+            { u: 3, en: "adolescence", ipa: "/ˌædəˈlesns/", vi: "giai đoạn vị thành niên" },
+            { u: 3, en: "adulthood", ipa: "/ˈædʌlthʊd/", vi: "giai đoạn trưởng thành" },
+            { u: 3, en: "calm", ipa: "/kɑːm/", vi: "bình tĩnh" },
+            { u: 3, en: "cognitive skill", ipa: "/ˈkɒɡnətɪv skɪl/", vi: "kỹ năng tư duy" },
+            { u: 3, en: "concentrate", ipa: "/ˈkɒnsntreɪt/", vi: "tập trung" },
+            { u: 3, en: "confident", ipa: "/ˈkɒnfɪdənt/", vi: "tự tin" },
+            { u: 3, en: "delighted", ipa: "/dɪˈlaɪtɪd/", vi: "vui sướng" },
+            { u: 3, en: "depressed", ipa: "/dɪˈprest/", vi: "tuyệt vọng" },
+            { u: 3, en: "embarrassed", ipa: "/ɪmˈbærəst/", vi: "xấu hổ" },
+            { u: 3, en: "emergency", ipa: "/iˈmɜːdʒənsi/", vi: "tình huống khẩn cấp" }
+        ],
+
+        // UNIT 4: LIFE IN THE PAST
+        4: [
+            { u: 4, en: "act out", ipa: "/ækt aʊt/", vi: "đóng vai" },
+            { u: 4, en: "arctic", ipa: "/ˈɑːktɪk/", vi: "thuộc Bắc Cực" },
+            { u: 4, en: "bare-footed", ipa: "/beə fʊtɪd/", vi: "chân đất" },
+            { u: 4, en: "behave", ipa: "/bɪˈheɪv/", vi: "cư xử" },
+            { u: 4, en: "dogsled", ipa: "/ˈdɒɡsled/", vi: "xe chó kéo" },
+            { u: 4, en: "domed", ipa: "/dəʊmd/", vi: "hình vòm" },
+            { u: 4, en: "downtown", ipa: "/ˌdaʊnˈtaʊn/", vi: "vào trung tâm thành phố" },
+            { u: 4, en: "eat out", ipa: "/iːt aʊt/", vi: "ăn ngoài" },
+            { u: 4, en: "entertain", ipa: "/ˌentəˈteɪn/", vi: "giải trí" },
+            { u: 4, en: "event", ipa: "/ɪˈvent/", vi: "sự kiện" }
+        ],
+
+        // UNIT 5: WONDERS OF VN
+        5: [
+            { u: 5, en: "administrative", ipa: "/ədˈmɪnɪstrətɪv/", vi: "thuộc hành chính" },
+            { u: 5, en: "astounding", ipa: "/əˈstaʊndɪŋ/", vi: "làm sửng sốt" },
+            { u: 5, en: "cavern", ipa: "/ˈkævən/", vi: "hang lớn" },
+            { u: 5, en: "citadel", ipa: "/ˈsɪtədəl/", vi: "thành lũy" },
+            { u: 5, en: "complex", ipa: "/ˈkɒmpleks/", vi: "quần thể" },
+            { u: 5, en: "contestant", ipa: "/kənˈtestənt/", vi: "thí sinh" },
+            { u: 5, en: "fortress", ipa: "/ˈfɔːtrəs/", vi: "pháo đài" },
+            { u: 5, en: "geological", ipa: "/ˌdʒiːəˈlɒdʒɪkl/", vi: "thuộc địa chất" },
+            { u: 5, en: "limestone", ipa: "/ˈlaɪmstəʊn/", vi: "đá vôi" },
+            { u: 5, en: "measure", ipa: "/ˈmeʒə/", vi: "biện pháp" }
+        ],
+
+        // ==========================================
+        // DỮ LIỆU ĐƯỢC CẬP NHẬT TỪ HÌNH ẢNH (UNIT 6 - 10)
+        // Yêu cầu: Viết dài dòng, chuẩn xác theo format
+        // ==========================================
+        
+        // UNIT 6: COMMUNITY SERVICES
+        6: [
+            {
+                u: 6,
+                en: "bus station",
+                ipa: "/bʌs ˈsteɪʃn/",
+                vi: "Bến xe buýt"
+            },
+            {
+                u: 6,
+                en: "hospital",
+                ipa: "/ˈhɒspɪtl/",
+                vi: "Bệnh viện"
+            },
+            {
+                u: 6,
+                en: "library",
+                ipa: "/ˈlaɪbrəri/",
+                vi: "Thư viện"
+            },
+            {
+                u: 6,
+                en: "police station",
+                ipa: "/pəˈliːs ˈsteɪʃn/",
+                vi: "Đồn cảnh sát"
+            },
+            {
+                u: 6,
+                en: "post office",
+                ipa: "/pəʊst ˈɒfɪs/",
+                vi: "Bưu điện"
+            },
+            {
+                u: 6,
+                en: "train station",
+                ipa: "/treɪn ˈsteɪʃn/",
+                vi: "Ga tàu hỏa"
+            },
+            {
+                u: 6,
+                en: "bag",
+                ipa: "/bæɡ/",
+                vi: "Túi"
+            },
+            {
+                u: 6,
+                en: "bottle",
+                ipa: "/ˈbɒtl/",
+                vi: "Chai"
+            },
+            {
+                u: 6,
+                en: "can",
+                ipa: "/kæn/",
+                vi: "Lon"
+            },
+            {
+                u: 6,
+                en: "glass",
+                ipa: "/ɡlɑːs/",
+                vi: "Thủy tinh"
+            },
+            {
+                u: 6,
+                en: "jar",
+                ipa: "/dʒɑː(r)/",
+                vi: "Lọ, hũ"
+            },
+            {
+                u: 6,
+                en: "pick up",
+                ipa: "/pɪk ʌp/",
+                vi: "Nhặt"
+            },
+            {
+                u: 6,
+                en: "plastic",
+                ipa: "/ˈplæstɪk/",
+                vi: "Nhựa"
+            },
+            {
+                u: 6,
+                en: "recycle",
+                ipa: "/ˌriːˈsaɪkl/",
+                vi: "Tái chế"
+            },
+            {
+                u: 6,
+                en: "throw away",
+                ipa: "/θrəʊ əˈweɪ/",
+                vi: "Vứt"
+            },
+            {
+                u: 6,
+                en: "trash",
+                ipa: "/træʃ/",
+                vi: "Rác"
+            },
+            {
+                u: 6,
+                en: "charity",
+                ipa: "/ˈtʃærəti/",
+                vi: "Hội từ thiện"
+            },
+            {
+                u: 6,
+                en: "donate",
+                ipa: "/dəʊˈneɪt/",
+                vi: "Quyên góp"
+            },
+            {
+                u: 6,
+                en: "free",
+                ipa: "/friː/",
+                vi: "Miễn phí"
+            },
+            {
+                u: 6,
+                en: "protect",
+                ipa: "/prəˈtekt/",
+                vi: "Bảo vệ"
+            },
+            {
+                u: 6,
+                en: "wildlife",
+                ipa: "/ˈwaɪldlaɪf/",
+                vi: "Đời sống hoang dã"
+            },
+            {
+                u: 6,
+                en: "environment",
+                ipa: "/ɪnˈvaɪrənmənt/",
+                vi: "Môi trường"
+            },
+            {
+                u: 6,
+                en: "supermarket",
+                ipa: "/suːpərmɑːrkɪt/",
+                vi: "Siêu thị"
+            },
+            {
+                u: 6,
+                en: "purpose",
+                ipa: "/ˈpɜːpəs/",
+                vi: "Mục đích"
+            },
+            {
+                u: 6,
+                en: "instruction",
+                ipa: "/ɪnˈstrʌkʃn/",
+                vi: "Hướng dẫn"
+            },
+            {
+                u: 6,
+                en: "newspaper",
+                ipa: "/ˈnjuːzpeɪpə(r)/",
+                vi: "Báo chí"
+            },
+            {
+                u: 6,
+                en: "magazine",
+                ipa: "/ˌmæɡəˈziːn/",
+                vi: "Tạp chí"
+            },
+            {
+                u: 6,
+                en: "create",
+                ipa: "/kriˈeɪt/",
+                vi: "Sáng tạo"
+            },
+            {
+                u: 6,
+                en: "cleanup",
+                ipa: "/ˈkliːn ʌp/",
+                vi: "Sự thu dọn"
+            },
+            {
+                u: 6,
+                en: "take part in",
+                ipa: "/teɪk pɑːt ɪn/",
+                vi: "Tham gia"
+            },
+            {
+                u: 6,
+                en: "organization",
+                ipa: "/ˌɔːɡənaɪˈzeɪʃn/",
+                vi: "Tổ chức"
+            }
+        ],
+
+        // UNIT 7: MOVIES
+        7: [
+            {
+                u: 7,
+                en: "action",
+                ipa: "/ˈækʃn/",
+                vi: "Phim hành động"
+            },
+            {
+                u: 7,
+                en: "animated",
+                ipa: "/ˈænɪmeɪtɪd/",
+                vi: "Hoạt hình"
+            },
+            {
+                u: 7,
+                en: "comedy",
+                ipa: "/ˈkɒmədi/",
+                vi: "Hài kịch"
+            },
+            {
+                u: 7,
+                en: "drama",
+                ipa: "/ˈdrɑːmə/",
+                vi: "Phim chính kịch"
+            },
+            {
+                u: 7,
+                en: "horror",
+                ipa: "/ˈhɒrə(r)/",
+                vi: "Phim kinh dị"
+            },
+            {
+                u: 7,
+                en: "science fiction",
+                ipa: "/ˌsaɪəns ˈfɪkʃn/",
+                vi: "Phim khoa học viễn tưởng"
+            },
+            {
+                u: 7,
+                en: "awful",
+                ipa: "/ˈɔːfl/",
+                vi: "Kinh khủng"
+            },
+            {
+                u: 7,
+                en: "boring",
+                ipa: "/ˈbɔːrɪŋ/",
+                vi: "Chán"
+            },
+            {
+                u: 7,
+                en: "exciting",
+                ipa: "/ɪkˈsaɪtɪŋ/",
+                vi: "Thú vị"
+            },
+            {
+                u: 7,
+                en: "fantastic",
+                ipa: "/fænˈtæstɪk/",
+                vi: "Tuyệt vời"
+            },
+            {
+                u: 7,
+                en: "funny",
+                ipa: "/ˈfʌni/",
+                vi: "Hài hước"
+            },
+            {
+                u: 7,
+                en: "great",
+                ipa: "/ɡreɪt/",
+                vi: "Tuyệt vời"
+            },
+            {
+                u: 7,
+                en: "sad",
+                ipa: "/sæd/",
+                vi: "Buồn"
+            },
+            {
+                u: 7,
+                en: "terrible",
+                ipa: "/ˈterəbl/",
+                vi: "Khủng khiếp"
+            },
+            {
+                u: 7,
+                en: "army",
+                ipa: "/ˈɑːmi/",
+                vi: "Quân đội"
+            },
+            {
+                u: 7,
+                en: "battle",
+                ipa: "/ˈbætl/",
+                vi: "Trận chiến"
+            },
+            {
+                u: 7,
+                en: "general",
+                ipa: "/ˈdʒenrəl/",
+                vi: "Vị tướng"
+            },
+            {
+                u: 7,
+                en: "king",
+                ipa: "/kɪŋ/",
+                vi: "Nhà vua"
+            },
+            {
+                u: 7,
+                en: "queen",
+                ipa: "/kwiːn/",
+                vi: "Nữ hoàng"
+            },
+            {
+                u: 7,
+                en: "soldier",
+                ipa: "/ˈsəʊldʒə(r)/",
+                vi: "Binh lính"
+            },
+            {
+                u: 7,
+                en: "win",
+                ipa: "/wɪn/",
+                vi: "Chiến thắng"
+            },
+            {
+                u: 7,
+                en: "invader",
+                ipa: "/ɪnˈveɪdə(r)/",
+                vi: "Kẻ xâm lược"
+            },
+            {
+                u: 7,
+                en: "specific",
+                ipa: "/spəˈsɪfɪk/",
+                vi: "Cụ thể"
+            },
+            {
+                u: 7,
+                en: "attack",
+                ipa: "/əˈtæk/",
+                vi: "Tấn công"
+            },
+            {
+                u: 7,
+                en: "president",
+                ipa: "/ˈprezɪdənt/",
+                vi: "Tổng thống"
+            },
+            {
+                u: 7,
+                en: "historical",
+                ipa: "/hɪˈstɒrɪkl/",
+                vi: "Thuộc về lịch sử"
+            },
+            {
+                u: 7,
+                en: "leader",
+                ipa: "/ˈliːdə(r)/",
+                vi: "Người lãnh đạo"
+            },
+            {
+                u: 7,
+                en: "character",
+                ipa: "/ˈkærəktə(r)/",
+                vi: "Nhân vật"
+            }
+        ],
+
+        // UNIT 8: THE WORLD AROUND US
+        8: [
+            {
+                u: 8,
+                en: "campsite",
+                ipa: "/ˈkæmpsaɪt/",
+                vi: "Khu cắm trại"
+            },
+            {
+                u: 8,
+                en: "canyon",
+                ipa: "/ˈkænjən/",
+                vi: "Hẻm núi"
+            },
+            {
+                u: 8,
+                en: "cave",
+                ipa: "/keɪv/",
+                vi: "Hang động"
+            },
+            {
+                u: 8,
+                en: "hiking",
+                ipa: "/ˈhaɪkɪŋ/",
+                vi: "Chuyến đi bộ đường dài"
+            },
+            {
+                u: 8,
+                en: "kayaking",
+                ipa: "/ˈkaɪækɪŋ/",
+                vi: "Trò chèo thuyền kayak"
+            },
+            {
+                u: 8,
+                en: "rafting",
+                ipa: "/ˈrɑːftɪŋ/",
+                vi: "Việc đi bè"
+            },
+            {
+                u: 8,
+                en: "battery",
+                ipa: "/ˈbætəri/",
+                vi: "Pin"
+            },
+            {
+                u: 8,
+                en: "bottled water",
+                ipa: "/ˌbɒtld ˈwɔːtə(r)/",
+                vi: "Nước đóng chai"
+            },
+            {
+                u: 8,
+                en: "flashlight",
+                ipa: "/ˈflæʃlaɪt/",
+                vi: "Đèn pin"
+            },
+            {
+                u: 8,
+                en: "pillow",
+                ipa: "/ˈpɪləʊ/",
+                vi: "Gối"
+            },
+            {
+                u: 8,
+                en: "sleeping bag",
+                ipa: "/ˈsliːpɪŋ bæɡ/",
+                vi: "Túi ngủ"
+            },
+            {
+                u: 8,
+                en: "tent",
+                ipa: "/tent/",
+                vi: "Lều"
+            },
+            {
+                u: 8,
+                en: "towel",
+                ipa: "/ˈtaʊəl/",
+                vi: "Khăn"
+            },
+            {
+                u: 8,
+                en: "bay",
+                ipa: "/beɪ/",
+                vi: "Vịnh"
+            },
+            {
+                u: 8,
+                en: "beach",
+                ipa: "/biːtʃ/",
+                vi: "Bãi biển"
+            },
+            {
+                u: 8,
+                en: "forest",
+                ipa: "/ˈfɒrɪst/",
+                vi: "Khu rừng"
+            },
+            {
+                u: 8,
+                en: "highland",
+                ipa: "/ˈhaɪlənd/",
+                vi: "Cao nguyên"
+            },
+            {
+                u: 8,
+                en: "island",
+                ipa: "/ˈaɪlənd/",
+                vi: "Hòn đảo"
+            },
+            {
+                u: 8,
+                en: "mountain",
+                ipa: "/ˈmaʊntn/",
+                vi: "Núi"
+            },
+            {
+                u: 8,
+                en: "waterfall",
+                ipa: "/ˈwɔːtəfɔːl/",
+                vi: "Thác nước"
+            },
+            {
+                u: 8,
+                en: "sneakers",
+                ipa: "/ˈsniːkərz/",
+                vi: "Giày thể thao"
+            },
+            {
+                u: 8,
+                en: "sunglasses",
+                ipa: "/ˈsʌnɡlɑːsɪz/",
+                vi: "Kính râm"
+            },
+            {
+                u: 8,
+                en: "confirm",
+                ipa: "/kənˈfɜːm/",
+                vi: "Xác nhận"
+            },
+            {
+                u: 8,
+                en: "decide",
+                ipa: "/dɪˈsaɪd/",
+vi: "Quyết định"
+            },
+            {
+                u: 8,
+                en: "heritage",
+                ipa: "/ˈherɪtɪdʒ/",
+                vi: "Di sản"
+            },
+            {
+                u: 8,
+                en: "information",
+                ipa: "/ˌɪnfəˈmeɪʃn/",
+                vi: "Thông tin"
+            },
+            {
+                u: 8,
+                en: "international",
+                ipa: "/ˌɪntəˈnæʃnəl/",
+                vi: "Quốc tế"
+            },
+            {
+                u: 8,
+                en: "dangerous",
+                ipa: "/ˈdeɪndʒərəs/",
+                vi: "Nguy hiểm"
+            }
+        ],
+
+        // UNIT 9: HOUSES IN THE FUTURE
+        9: [
+            {
+                u: 9,
+                en: "earthscraper",
+                ipa: "/ˈɜːθskreɪpə(r)/",
+                vi: "Nhà nhiều tầng dưới lòng đất"
+            },
+            {
+                u: 9,
+                en: "eco-friendly",
+                ipa: "/ˌiːkəʊ ˈfrendli/",
+                vi: "Thân thiện với môi trường"
+            },
+            {
+                u: 9,
+                en: "megacity",
+                ipa: "/ˈmeɡəsɪti/",
+                vi: "Siêu đô thị"
+            },
+            {
+                u: 9,
+                en: "sea",
+                ipa: "/siː/",
+                vi: "Biển"
+            },
+            {
+                u: 9,
+                en: "smart home",
+                ipa: "/smɑːt həʊm/",
+                vi: "Nhà thông minh"
+            },
+            {
+                u: 9,
+                en: "underground",
+                ipa: "/ˌʌndəˈɡraʊnd/",
+                vi: "Ngầm dưới đất"
+            },
+            {
+                u: 9,
+                en: "3D printer",
+                ipa: "/ˌθriː diː ˈprɪntə(r)/",
+                vi: "Máy in 3D"
+            },
+            {
+                u: 9,
+                en: "automatic food machine",
+                ipa: "/ˌɔːtəmætɪk fuːd məˈʃiːn/",
+                vi: "Máy làm thức ăn tự động"
+            },
+            {
+                u: 9,
+                en: "device",
+                ipa: "/dɪˈvaɪs/",
+                vi: "Thiết bị"
+            },
+            {
+                u: 9,
+                en: "drone",
+                ipa: "/drəʊn/",
+                vi: "Máy bay không người lái"
+            },
+            {
+                u: 9,
+                en: "robot helper",
+                ipa: "/ˈrəʊbɒt ˈhelpə(r)/",
+                vi: "Người máy giúp việc"
+            },
+            {
+                u: 9,
+                en: "screen",
+                ipa: "/skriːn/",
+                vi: "Màn hình"
+            },
+            {
+                u: 9,
+                en: "smart",
+                ipa: "/smɑːt/",
+                vi: "Thông minh"
+            },
+            {
+                u: 9,
+                en: "crowded",
+                ipa: "/ˈkraʊdɪd/",
+                vi: "Đông đúc"
+            },
+            {
+                u: 9,
+                en: "noisy",
+                ipa: "/ˈnɔɪzi/",
+                vi: "Ồn ào"
+            },
+            {
+                u: 9,
+                en: "modern",
+                ipa: "/ˈmɒdn/",
+                vi: "Hiện đại"
+            },
+            {
+                u: 9,
+                en: "peaceful",
+                ipa: "/ˈpiːsfl/",
+                vi: "Yên bình"
+            },
+            {
+                u: 9,
+                en: "shopping mall",
+                ipa: "/ˈʃɒpɪŋ mɔːl/",
+                vi: "Trung tâm thương mại"
+            },
+            {
+                u: 9,
+                en: "cheap",
+                ipa: "/tʃiːp/",
+                vi: "Rẻ"
+            },
+            {
+                u: 9,
+                en: "clean",
+                ipa: "/kliːn/",
+                vi: "Sạch"
+            },
+            {
+                u: 9,
+                en: "expensive",
+                ipa: "/ɪkˈspensɪv/",
+                vi: "Đắt (mắc)"
+            },
+            {
+                u: 9,
+                en: "polluted",
+                ipa: "/pəˈluːtɪd/",
+                vi: "Ô nhiễm"
+            },
+            {
+                u: 9,
+                en: "populated",
+                ipa: "/ˈpɒpjuleɪtɪd/",
+                vi: "Đông dân"
+            },
+            {
+                u: 9,
+                en: "temperature",
+                ipa: "/ˈtemprətʃə(r)/",
+                vi: "Nhiệt độ"
+            },
+            {
+                u: 9,
+                en: "reunification",
+                ipa: "/ˌriːˌjuːnɪfɪˈkeɪʃn/",
+                vi: "Sự thống nhất lại"
+            },
+            {
+                u: 9,
+                en: "understanding",
+                ipa: "/ˌʌndəˈstændɪŋ/",
+                vi: "Sự hiểu biết"
+            },
+            {
+                u: 9,
+                en: "vacation",
+                ipa: "/vəˈkeɪʃn/",
+                vi: "Kỳ nghỉ"
+            },
+            {
+                u: 9,
+                en: "transportation",
+                ipa: "/ˌtrænspɔːˈteɪʃn/",
+                vi: "Sự vận chuyển"
+            },
+            {
+                u: 9,
+                en: "traditional",
+                ipa: "/trəˈdɪʃənl/",
+                vi: "Thuộc về truyền thống"
+            },
+            {
+                u: 9,
+                en: "architecture",
+                ipa: "/ˈɑːkɪtektʃə(r)/",
+                vi: "Kiến trúc"
+            }
+        ],
+
+        // UNIT 10: CITIES AROUND THE WORLD
+        10: [
+            {
+                u: 10,
+                en: "bridge",
+                ipa: "/brɪdʒ/",
+                vi: "Cây cầu"
+            },
+            {
+                u: 10,
+                en: "cathedral",
+                ipa: "/kəˈθiːdrəl/",
+                vi: "Nhà thờ lớn"
+            },
+            {
+                u: 10,
+                en: "museum",
+                ipa: "/mjuˈziːəm/",
+                vi: "Bảo tàng"
+            },
+            {
+                u: 10,
+                en: "opera house",
+                ipa: "/ˈɒprə haʊs/",
+                vi: "Nhà hát"
+            },
+            {
+                u: 10,
+                en: "palace",
+                ipa: "/ˈpæləs/",
+                vi: "Cung điện"
+            },
+            {
+                u: 10,
+                en: "park",
+                ipa: "/pɑːk/",
+                vi: "Công viên"
+            },
+            {
+                u: 10,
+                en: "statue",
+                ipa: "/ˈstætʃuː/",
+                vi: "Tượng"
+            },
+            {
+                u: 10,
+                en: "tower",
+                ipa: "/ˈtaʊə(r)/",
+                vi: "Tòa tháp"
+            },
+            {
+                u: 10,
+                en: "amusement park",
+                ipa: "/əˈmjuːzmənt pɑːk/",
+                vi: "Công viên giải trí"
+            },
+            {
+                u: 10,
+                en: "building",
+                ipa: "/ˈbɪldɪŋ/",
+                vi: "Tòa nhà"
+            },
+            {
+                u: 10,
+                en: "astronaut",
+                ipa: "/ˈæstrənɔːt/",
+                vi: "Phi hành gia"
+            },
+            {
+                u: 10,
+                en: "earth",
+                ipa: "/ɜːθ/",
+                vi: "Trái đất"
+            },
+            {
+                u: 10,
+                en: "float",
+                ipa: "/fləʊt/",
+                vi: "Trôi, nổi"
+            },
+            {
+                u: 10,
+                en: "gravity",
+                ipa: "/ˈɡrævəti/",
+                vi: "Trọng lực"
+            },
+            {
+                u: 10,
+                en: "lock",
+                ipa: "/lɒk/",
+                vi: "Khóa lại"
+            },
+            {
+                u: 10,
+                en: "Moon",
+                ipa: "/muːn/",
+                vi: "Mặt trăng"
+            },
+            {
+                u: 10,
+                en: "space station",
+                ipa: "/speɪs ˈsteɪʃn/",
+                vi: "Trạm không gian"
+            },
+            {
+                u: 10,
+                en: "spacesuit",
+                ipa: "/ˈspeɪssuːt/",
+                vi: "Bộ quần áo vũ trụ"
+            },
+            {
+                u: 10,
+                en: "control",
+                ipa: "/kənˈtrəʊl/",
+                vi: "Điều khiển"
+            },
+            {
+                u: 10,
+                en: "tie",
+                ipa: "/taɪ/",
+                vi: "Buộc/ Trói"
+            },
+            {
+                u: 10,
+                en: "furniture",
+                ipa: "/ˈfɜːnɪtʃə(r)/",
+                vi: "Đồ đạc"
+            },
+            {
+                u: 10,
+                en: "discuss",
+                ipa: "/dɪˈskʌs/",
+                vi: "Thảo luận"
+            },
+            {
+                u: 10,
+                en: "advantage",
+                ipa: "/ədˈvɑːntɪdʒ/",
+                vi: "Thuận lợi"
+            },
+            {
+                u: 10,
+                en: "equipment",
+                ipa: "/ɪˈkwɪpmənt/",
+                vi: "Thiết bị"
+            },
+            {
+                u: 10,
+                en: "lift",
+                ipa: "/lɪft/",
+                vi: "Nâng/ Nhấc"
+            },
+            {
+                u: 10,
+                en: "special",
+                ipa: "/ˈspeʃl/",
+                vi: "Đặc biệt"
+            },
+            {
+                u: 10,
+                en: "information",
+                ipa: "/ˌɪnfəˈmeɪʃn/",
+                vi: "Thông tin"
+            },
+            {
+                u: 10,
+                en: "exhibition",
+                ipa: "/ˌeksɪˈbɪʃn/",
+                vi: "Triển lãm"
+            },
+            {
+                u: 10,
+                en: "deliver",
+                ipa: "/dɪˈlɪvə(r)/",
+                vi: "Phân phát/ Giao"
+            }
+        ]
+    };
+
+    /**
+     * ==========================================================================
+     * QUẢN LÝ TRẠNG THÁI VÀ GIAO DIỆN
+     * ==========================================================================
+     */
+    let currentIdx = 0;
+    // Khởi tạo mặt định sẽ là Unit 6 theo yêu cầu dữ liệu mới nhất
+    let currentUnitData = fullData[6];
+
+    /**
+     * Chuyển đổi giữa các tab chức năng
+     * @param {string} tabName - Tên của tab muốn hiển thị ('study', 'flashcard', 'game', 'chat')
+     */
+    function showTab(tabName) {
+        // Ẩn tất cả tab
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        // Hiển thị tab được chọn
+        document.getElementById(tabName + '-tab').classList.remove('hidden');
+        event.currentTarget.classList.add('active');
+        
+        // Reset game nếu vào tab game
+        if(tabName === 'game') {
+            initGame();
+        }
+    }
+
+    /**
+     * Thay đổi Unit khi chọn trên dropdown
+     */
+    function changeUnit() {
+        let u = document.getElementById('currentUnit').value;
+        currentUnitData = fullData[u] || [];
+        currentIdx = 0; // Reset index của flashcard
+        
+        // Cập nhật lại các giao diện tương ứng
+        renderStudyList();
+        updateFlashcard();
+    }
+
+    /**
+     * ==========================================================================
+     * TÍNH NĂNG 1: STUDY LIST (BẢNG TỪ VỰNG)
+     * ==========================================================================
+     */
+     
+    /**
+     * Render toàn bộ từ vựng của Unit hiện tại vào bảng
+     */
+    function renderStudyList() {
+        const body = document.getElementById('vocab-body');
+        
+        // Nếu không có dữ liệu
+        if(!currentUnitData || currentUnitData.length === 0) {
+            body.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px;">Dữ liệu Unit này đang được cập nhật...</td></tr>`;
+            return;
+        }
+
+        body.innerHTML = currentUnitData.map(item => `
+            <tr>
+                <td style="font-weight:bold; color:var(--red); font-size: 20px;">${item.en}</td>
+                <td style="font-style:italic; color: #666;">${item.ipa}</td>
+                <td style="font-size: 18px;">${item.vi}</td>
+                <td style="text-align:center;">
+                    <button class="btn-play-sound" onclick="speak('${item.en}')" title="Nghe phát âm">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    /**
+     * Tìm kiếm từ vựng trực tiếp trên bảng
+     */
+    function filterList() {
+        let q = document.getElementById('searchInp').value.toLowerCase();
+        let rows = document.querySelectorAll('#vocab-body tr');
+        
+        rows.forEach(row => {
+            let text = row.innerText.toLowerCase();
+            // Nếu chữ chứa nội dung tìm kiếm thì hiển thị, ngược lại thì ẩn
+            row.style.display = text.includes(q) ? '' : 'none';
+        });
+    }
+
+    /**
+     * ==========================================================================
+     * TÍNH NĂNG 2: FLASHCARD THÔNG MINH
+     * ==========================================================================
+     */
+     
+    /**
+     * Cập nhật nội dung thẻ flashcard dựa theo index hiện tại
+     */
+    function updateFlashcard() {
+        if(!currentUnitData || currentUnitData.length === 0) return;
+        
+        // Luôn lật lại mặt trước khi đổi từ
+        document.getElementById('mainCard').classList.remove('flipped');
+        
+        let word = currentUnitData[currentIdx];
+        
+        // Cập nhật DOM
+        document.getElementById('f-en').innerText = word.en;
+        document.getElementById('f-ipa').innerText = word.ipa;
+        document.getElementById('f-vi').innerText = word.vi;
+        
+        // Cập nhật tiến độ
+        document.getElementById('card-progress').innerText = `Từ ${currentIdx + 1} / ${currentUnitData.length}`;
+    }
+
+    function nextCard() { 
+        currentIdx = (currentIdx + 1) % currentUnitData.length; 
+        updateFlashcard(); 
+    }
+    
+    function prevCard() { 
+        currentIdx = (currentIdx - 1 + currentUnitData.length) % currentUnitData.length; 
+        updateFlashcard(); 
+    }
+
+    /**
+     * ==========================================================================
+     * TÍNH NĂNG 3: TRÒ CHƠI PHẢN XẠ NỐI TỪ (MATCHING GAME)
+     * ==========================================================================
+     */
+    let firstCard = null; // Thẻ đầu tiên được chọn
+    
+    /**
+     * Khởi tạo bàn chơi mới với 6 cặp từ ngẫu nhiên
+     */
+    function initGame() {
+        const grid = document.getElementById('game-grid');
+        grid.innerHTML = "";
+        firstCard = null; // Reset trạng thái
+        
+        if(!currentUnitData || currentUnitData.length < 6) {
+            grid.innerHTML = "<p>Cần ít nhất 6 từ để chơi game!</p>";
+            return;
+        }
+
+        // Lấy ngẫu nhiên 6 từ trong Unit
+        let words = [...currentUnitData].sort(() => 0.5 - Math.random()).slice(0, 6);
+        let items = [];
+        
+        // Tạo các khối chứa Tiếng Anh và Tiếng Việt
+        words.forEach(w => {
+            items.push({ text: w.en, type: 'en', match: w.vi });
+            items.push({ text: w.vi, type: 'vi', match: w.en });
+        });
+        
+        // Xáo trộn vị trí hiển thị
+        items.sort(() => 0.5 - Math.random());
+        
+        // Render ra màn hình
+        items.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'game-item';
+            div.innerText = item.text;
+            
+            // Xử lý sự kiện click
+            div.onclick = () => handleGameClick(div, item);
+            grid.appendChild(div);
+        });
+    }
+
+    /**
+     * Xử lý logic khi người chơi click vào một thẻ trong game
+     */
+    function handleGameClick(div, item) {
+        // Nếu thẻ đã chọn hoặc đã đúng thì bỏ qua
+        if(div.classList.contains('correct') || div === firstCard?.div) return;
+        
+        // Đánh dấu đang chọn
+        div.classList.add('selected');
+        
+        if(!firstCard) {
+            // Đây là thẻ đầu tiên click
+            firstCard = { div, item };
+        } else {
+            // Đây là thẻ thứ 2 click, tiến hành kiểm tra
+            if(firstCard.item.match === item.text) {
+                // Trả lời đúng
+                speak("Correct!");
+                div.classList.add('correct');
+                firstCard.div.classList.add('correct');
+                firstCard = null;
+                
+                // Kiểm tra xem đã win game chưa (tất cả đều có class correct)
+                checkWinGame();
+            } else {
+                // Trả lời sai
+                let temp = firstCard;
+                setTimeout(() => {
+                    div.classList.remove('selected');
+                    temp.div.classList.remove('selected');
+                }, 600);
+                firstCard = null;
+            }
+        }
+    }
+
+    function checkWinGame() {
+        const allItems = document.querySelectorAll('.game-item');
+        const correctItems = document.querySelectorAll('.game-item.correct');
+        
+        if(allItems.length > 0 && allItems.length === correctItems.length) {
+            setTimeout(() => {
+                alert("🎉 Xuất sắc! Các em đã hoàn thành bài tập nối từ của thầy Bằng!");
+                initGame();
+            }, 800);
+        }
+    }
+
+    /**
+     * ==========================================================================
+     * TÍNH NĂNG 4: CHATBOT HÀI HƯỚC DÀNH CHO LỚP HỌC (THEO YÊU CẦU)
+     * ==========================================================================
+     */
+
+    // Ngân hàng câu thoại giả lập của "Thầy Bằng Bot" réo tên các học sinh
+    const botResponses = [
+        "Thầy Bằng dặn là bài Unit này rất quan trọng nhé, học kỹ vào!",
+        "Heri hôm nay thuộc bài chưa mà lên đây chat thế em?",
+        "Nick bảo Unit này khó lắm, có ai giải thích hộ bạn ấy không?",
+        "Kate nãy giờ chơi game nối từ Top 1 rồi kìa, các em khác cố lên!",
+        "Henry chép phạt 10 lần từ vựng chưa mà lên đây chém gió? 😂",
+        "Kelvin học giỏi nhất lớp rồi, chỉ bài cho các bạn với nào!",
+        "Dora bảo nhớ được 10 từ là buồn ngủ rồi zzz... Nhắc Dora dậy học đi!",
+        "Jackson vừa bị thầy Bằng gọi trả bài đó nha, coi chừng tới lượt em!",
+        "Học đi mấy đứa, thầy Bằng đang soi log hệ thống đấy =)))",
+        "Có ai biết từ 'environment' phát âm sao không? Hỏi bạn Nick đi!",
+        "Học tài thi phận, nhưng không học là chắc chắn nhận quả trứng ngỗng nha lớp!",
+        "Nhắn tin không có dấu là thầy Bằng trừ điểm thanh lịch đấy nhé!"
+    ];
+
+    /**
+     * Xử lý khi ấn Enter trong ô chat
+     */
+    function handleChatEnter(event) {
+        if(event.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    /**
+     * Gửi tin nhắn và nhận phản hồi từ Bot
+     */
+    function sendMessage() {
+        const inputObj = document.getElementById('chatInput');
+        const text = inputObj.value.trim();
+        if(!text) return;
+
+        appendMessage('user', '🙋 Em', text);
+        inputObj.value = '';
+
+        // Bot phản hồi sau 1-2 giây
+        const typing = document.getElementById('typing-indicator');
+        typing.style.display = 'block';
+        
+        // Cuộn xuống cuối
+        scrollToBottom();
+
+        setTimeout(() => {
+            typing.style.display = 'none';
+            // Lấy ngẫu nhiên câu thoại
+            const randomMsg = botResponses[Math.floor(Math.random() * botResponses.length)];
+            appendMessage('bot', '🤖 Thầy Bằng (Bot)', randomMsg);
+        }, 1000 + Math.random() * 1000);
+    }
+
+    /**
+     * Chèn tin nhắn vào khung chat
+     */
+    function appendMessage(type, senderName, text) {
+        const chatBox = document.getElementById('chat-messages');
+        const divWrapper = document.createElement('div');
+        divWrapper.className = `message-wrapper ${type} anim-fade`;
+        
+        divWrapper.innerHTML = `
+            <div class="message-sender">${senderName}</div>
+            <div class="message ${type}">${text}</div>
+        `;
+        
+        chatBox.appendChild(divWrapper);
+        scrollToBottom();
+    }
+
+    function scrollToBottom() {
+        const chatBox = document.getElementById('chat-messages');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    /**
+     * ==========================================================================
+     * TIỆN ÍCH TEXT-TO-SPEECH (ĐỌC ÂM THANH)
+     * ==========================================================================
+     */
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            // Dừng các âm thanh đang đọc
+            window.speechSynthesis.cancel();
+            
+            let msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'en-US';
+            msg.rate = 0.9; // Đọc chậm lại chút xíu cho học sinh dễ nghe
+            msg.pitch = 1.0;
+            
+            window.speechSynthesis.speak(msg);
+        } else {
+            console.log("Trình duyệt không hỗ trợ Text-to-Speech");
+        }
+    }
+    
+    function speakCurrent() { 
+        speak(currentUnitData[currentIdx].en); 
+    }
+
+    /**
+     * Khởi động toàn bộ ứng dụng khi DOM tải xong
+     */
+    window.onload = () => { 
+        // Force khởi động dữ liệu ở select mặc định
+        document.getElementById('currentUnit').value = "6";
+        changeUnit(); 
+    };
+
+</script>
+</body>
+</html>
